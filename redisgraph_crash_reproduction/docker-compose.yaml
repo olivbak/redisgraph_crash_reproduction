@@ -1,0 +1,58 @@
+version: '3.4'
+
+services:
+  crash-redis:
+    build:
+      context: .
+      dockerfile: dockerfiles/redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    command: redis-server --loadmodule /usr/lib/redisgraph.so
+    ports:
+      - '16379:6379'
+
+  crash-service-0:
+    build:
+      context: .
+      dockerfile: dockerfiles/service
+    depends_on:
+      - crash-redis
+    networks:
+      default:
+        aliases:
+          - service
+
+
+  crash-service-1:
+    build:
+      context: .
+      dockerfile: dockerfiles/service
+    depends_on:
+      - crash-redis
+    networks:
+      default:
+        aliases:
+          - service
+
+
+  crash-service-2:
+    build:
+      context: .
+      dockerfile: dockerfiles/service
+    depends_on:
+      - crash-redis
+    networks:
+      default:
+        aliases:
+          - service
+
+  crash-service-3:
+    build:
+      context: .
+      dockerfile: dockerfiles/service
+    depends_on:
+      - crash-redis
+    networks:
+      default:
+        aliases:
+          - service

@@ -1,0 +1,24 @@
+FROM debian:bullseye AS builder
+WORKDIR /build
+RUN apt update
+RUN apt-get install -y build-essential cmake git m4 automake peg libtool autoconf python3 python3-pip
+RUN git clone --recurse-submodules -j8 https://github.com/RedisGraph/RedisGraph.git
+WORKDIR RedisGraph
+
+RUN git checkout tags/v2.12.10 && git submodule update --init --recursive
+
+RUN ./deps/readies/bin/getpy2
+RUN ./sbin/system-setup.py
+RUN make
+
+FROM redis:7.0.12-bookworm
+RUN apt-get update
+RUN apt-get install -y libgomp1
+RUN mkdir -p /opt/redisgraph/
+RUN apt autoremove
+
+RUN rm /usr/local/bin/gosu
+
+COPY --from=builder /build/RedisGraph/bin/linux-x64-release/src/redisgraph.so /usr/lib/redisgraph.so
+
+USER redis
