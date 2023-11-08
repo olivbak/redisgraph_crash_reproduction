@@ -11,42 +11,7 @@ services:
     ports:
       - '16379:6379'
 
-  crash-service-0:
-    build:
-      context: .
-      dockerfile: dockerfiles/service
-    depends_on:
-      - crash-redis
-    networks:
-      default:
-        aliases:
-          - service
-
-
-  crash-service-1:
-    build:
-      context: .
-      dockerfile: dockerfiles/service
-    depends_on:
-      - crash-redis
-    networks:
-      default:
-        aliases:
-          - service
-
-
-  crash-service-2:
-    build:
-      context: .
-      dockerfile: dockerfiles/service
-    depends_on:
-      - crash-redis
-    networks:
-      default:
-        aliases:
-          - service
-
-  crash-service-3:
+  crash-service:
     build:
       context: .
       dockerfile: dockerfiles/service
