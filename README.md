@@ -3,8 +3,7 @@ Showcases a reproducible crash using redisgraph 2.12.10
 
 ## How to reproduce
 1. `git clone https://github.com/olivbak/redisgraph_crash_reproduction`
-2. `cd redis_crash_reprodside docker container: `python3 lib/reproduction.py`
-uction`
+2. `cd redis_crash_reproduce:
 3. Build service: `docker-compose run --use-aliases --rm crash-service`
 4. Inside docker container: `python3 lib/reproduction.py`
 
